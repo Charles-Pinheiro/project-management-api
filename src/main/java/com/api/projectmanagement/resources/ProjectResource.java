@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,5 +32,11 @@ public class ProjectResource {
 	public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
 		Project project = projectService.findById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(project);
+	}
+
+	@PostMapping
+	public ResponseEntity<Project> saveProject(@RequestBody Project project) {
+		project = projectService.save(project);
+		return ResponseEntity.status(HttpStatus.CREATED).body(project);
 	}
 }
