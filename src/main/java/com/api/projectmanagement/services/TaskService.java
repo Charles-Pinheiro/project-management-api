@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.projectmanagement.dtos.TaskPostDTO;
+import com.api.projectmanagement.dtos.TaskPutDTO;
 import com.api.projectmanagement.entities.Project;
 import com.api.projectmanagement.entities.Task;
 import com.api.projectmanagement.entities.enums.TaskStatus;
 import com.api.projectmanagement.repositories.TaskRepository;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
 
 @Service
 public class TaskService {
@@ -47,4 +50,16 @@ public class TaskService {
     public void delete(Long id) {
 		taskRepository.deleteById(id);
     }
+
+	public Task update(Long id, TaskPutDTO task) {
+		Task entity = taskRepository.getReferenceById(id);
+		updateData(entity, task);
+		return taskRepository.save(entity);
+	}
+
+	private void updateData(Task entity, TaskPutDTO task) {
+		entity.setDescription(task.getDescription());
+		entity.setDeadLine(Instant.parse(task.getDeadLine()));
+		entity.setStatus(TaskStatus.valueOf(task.getStatus()));
+	}
 }
