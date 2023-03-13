@@ -36,4 +36,20 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
+	public Project update(Long id, Project project) {
+		Project entity = projectRepository.getReferenceById(id);
+		updateData(entity, project);
+		return projectRepository.save(entity);
+	}
+
+	private void updateData(Project entity, Project project) {
+		entity.setName(project.getName());
+		entity.setDescription(project.getDescription());
+	}
+
+
+
+
+
+
 }
