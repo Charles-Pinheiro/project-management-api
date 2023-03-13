@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.projectmanagement.dtos.TaskPostDTO;
 import com.api.projectmanagement.dtos.TaskPutDTO;
-import com.api.projectmanagement.entities.Project;
 import com.api.projectmanagement.entities.Task;
 import com.api.projectmanagement.services.TaskService;
 
@@ -48,4 +47,5 @@ public class TaskResource {
 	public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody TaskPutDTO task) {
 		return ResponseEntity.status(HttpStatus.OK).body(taskService.update(id, task));
 	}
+
 }

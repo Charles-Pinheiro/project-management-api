@@ -14,10 +14,8 @@ import com.api.projectmanagement.entities.Task;
 import com.api.projectmanagement.entities.enums.TaskStatus;
 import com.api.projectmanagement.repositories.TaskRepository;
 import com.api.projectmanagement.services.exceptions.ResourceNotFoundException;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotBlank;
 
 @Service
 public class TaskService {
@@ -66,4 +64,5 @@ public class TaskService {
 		entity.setDeadLine(Instant.parse(task.getDeadLine()));
 		entity.setStatus(TaskStatus.valueOf(task.getStatus()));
 	}
+
 }

@@ -40,10 +40,12 @@ public class ProjectService {
     }
 
 	public Project update(Long id, Project project) {
+
 		try {
 			Project entity = projectRepository.getReferenceById(id);
 			updateData(entity, project);
-			return projectRepository.save(entity);			
+			return projectRepository.save(entity);
+
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException(id);
 		}

@@ -54,6 +54,4 @@ public class ProjectResource {
 		return ResponseEntity.status(HttpStatus.OK).body(project);
 	}
 
-
-
 }
