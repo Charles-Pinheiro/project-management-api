@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.projectmanagement.entities.Project;
 import com.api.projectmanagement.repositories.ProjectRepository;
+import com.api.projectmanagement.services.exceptions.ResourceNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -23,7 +24,7 @@ public class ProjectService {
 
 	public Project findById(Long id) {
 		Optional<Project> project = projectRepository.findById(id);
-		return project.get();
+		return project.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	@Transactional
