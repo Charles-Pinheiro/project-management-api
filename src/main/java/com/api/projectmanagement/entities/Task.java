@@ -48,6 +48,14 @@ public class Task implements Serializable {
 		this.project = project;
 	}
 
+	public Task(String description, Instant deadLine, TaskStatus status, Project project) {
+		super();
+		this.description = description;
+		this.deadLine = deadLine;
+		setStatus(status);
+		this.project = project;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -73,7 +81,7 @@ public class Task implements Serializable {
 	}
 
 	public TaskStatus getStatus() {
-		return TaskStatus.valueOf(status);
+		return TaskStatus.codeOf(status);
 	}
 
 	public void setStatus(TaskStatus status) {

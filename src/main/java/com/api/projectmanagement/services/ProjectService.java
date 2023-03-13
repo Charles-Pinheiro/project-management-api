@@ -47,9 +47,4 @@ public class ProjectService {
 		entity.setDescription(project.getDescription());
 	}
 
-
-
-
-
-
 }

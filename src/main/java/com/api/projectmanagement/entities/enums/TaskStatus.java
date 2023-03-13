@@ -21,7 +21,7 @@ public enum TaskStatus {
 		return code;
 	}
 
-	public static TaskStatus valueOf(int code) {
+	public static TaskStatus codeOf(int code) {
 		for (TaskStatus status : TaskStatus.values()) {
 			if (status.getCode() == code) {
 				return status;
