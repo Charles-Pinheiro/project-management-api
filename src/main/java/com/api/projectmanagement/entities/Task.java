@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.api.projectmanagement.entities.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,7 +30,7 @@ public class Task implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant deadLine;
 
-//	- status: TaskStatus
+	private Integer status;
 
 	@JsonIgnore
 	@ManyToOne
@@ -38,11 +39,12 @@ public class Task implements Serializable {
 
 	public Task() {}
 
-	public Task(Long id, String description, Instant deadLine, Project project) {
+	public Task(Long id, String description, Instant deadLine, TaskStatus status, Project project) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.deadLine = deadLine;
+		setStatus(status);
 		this.project = project;
 	}
 
@@ -68,6 +70,16 @@ public class Task implements Serializable {
 
 	public void setDeadLine(Instant deadLine) {
 		this.deadLine = deadLine;
+	}
+
+	public TaskStatus getStatus() {
+		return TaskStatus.valueOf(status);
+	}
+
+	public void setStatus(TaskStatus status) {
+		if (status != null) {
+			this.status = status.getCode();			
+		}
 	}
 
 	public Project getProject() {
