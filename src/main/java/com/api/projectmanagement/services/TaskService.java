@@ -15,6 +15,7 @@ import com.api.projectmanagement.entities.enums.TaskStatus;
 import com.api.projectmanagement.repositories.TaskRepository;
 import com.api.projectmanagement.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -54,9 +55,15 @@ public class TaskService {
     }
 
 	public Task update(Long id, TaskPutDTO task) {
-		Task entity = taskRepository.getReferenceById(id);
-		updateData(entity, task);
-		return taskRepository.save(entity);
+
+		try {
+			Task entity = taskRepository.getReferenceById(id);
+			updateData(entity, task);
+			return taskRepository.save(entity);
+
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Task entity, TaskPutDTO task) {
