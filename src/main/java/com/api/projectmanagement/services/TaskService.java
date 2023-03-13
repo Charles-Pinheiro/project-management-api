@@ -2,6 +2,7 @@ package com.api.projectmanagement.services;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import com.api.projectmanagement.entities.Project;
 import com.api.projectmanagement.entities.Task;
 import com.api.projectmanagement.entities.enums.TaskStatus;
 import com.api.projectmanagement.repositories.TaskRepository;
+import com.api.projectmanagement.services.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.transaction.Transactional;
@@ -26,8 +28,9 @@ public class TaskService {
 	@Autowired
 	private ProjectService projectService;
 
-	public List<Task> findAll() {
-		return taskRepository.findAll();
+	public Task findById(Long id) {
+		Optional<Task> task = taskRepository.findById(id);
+		return task.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	public List<Task> findByProjectId(Long projectId) {
@@ -48,6 +51,7 @@ public class TaskService {
 
 	@Transactional
     public void delete(Long id) {
+		findById(id);
 		taskRepository.deleteById(id);
     }
 

@@ -27,12 +27,6 @@ public class TaskResource {
 	@Autowired
 	private TaskService taskService;
 
-	@GetMapping
-	public ResponseEntity<List<Task>> getAllProjects() {
-		List<Task> tasks = taskService.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(tasks);
-	}
-
 	@GetMapping(value = "/{projectId}")
 	public ResponseEntity<List<Task>> getTasksByProjectId(@PathVariable Long projectId) {
 		List<Task> tasks = taskService.findByProjectId(projectId);

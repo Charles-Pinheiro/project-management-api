@@ -34,6 +34,7 @@ public class ProjectService {
 
 	@Transactional
     public void delete(Long id) {
+		findById(id);
         projectRepository.deleteById(id);
     }
 
