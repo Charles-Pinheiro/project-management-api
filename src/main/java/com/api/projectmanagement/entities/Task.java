@@ -1,38 +1,41 @@
 package com.api.projectmanagement.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TB_PROJECT")
-public class Project implements Serializable {
+@Table(name = "TB_TASK")
+public class Task implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String name;
 	private String description;
+	private Instant deadLine;
+//	- status: TaskStatus
 
-	@OneToMany(mappedBy = "project")
-	private List<Task> tasks = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "project_id")
+	private Project project;
 
-	public Project() {}
+	public Task() {}
 
-	public Project(Long id, String name, String description) {
+	public Task(Long id, String description, Instant deadLine, Project project) {
 		super();
 		this.id = id;
-		this.name = name;
 		this.description = description;
+		this.deadLine = deadLine;
+		this.project = project;
 	}
 
 	public Long getId() {
@@ -43,14 +46,6 @@ public class Project implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -59,8 +54,20 @@ public class Project implements Serializable {
 		this.description = description;
 	}
 
-	public List<Task> getTasks() {
-		return tasks;
+	public Instant getDeadLine() {
+		return deadLine;
+	}
+
+	public void setDeadLine(Instant deadLine) {
+		this.deadLine = deadLine;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	@Override
@@ -76,10 +83,9 @@ public class Project implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Project other = (Project) obj;
+		Task other = (Task) obj;
 		return Objects.equals(id, other.id);
 	}
-
 
 	
 }
