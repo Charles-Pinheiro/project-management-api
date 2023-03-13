@@ -10,6 +10,7 @@ import com.api.projectmanagement.entities.Project;
 import com.api.projectmanagement.repositories.ProjectRepository;
 import com.api.projectmanagement.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -39,9 +40,13 @@ public class ProjectService {
     }
 
 	public Project update(Long id, Project project) {
-		Project entity = projectRepository.getReferenceById(id);
-		updateData(entity, project);
-		return projectRepository.save(entity);
+		try {
+			Project entity = projectRepository.getReferenceById(id);
+			updateData(entity, project);
+			return projectRepository.save(entity);			
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(Project entity, Project project) {
